@@ -1,0 +1,27 @@
+spring:
+   datasource:
+     platform: mysql
+     driverClassName: com.mysql.jdbc.Driver
+     url: jdbc:mysql://127.0.0.1:3306/CCAPPDBINST
+     username: root
+     password: root
+   jpa:
+     database: default
+     properties.hibernate.format_sql: true
+     hibernate.ddl-auto: update
+     generate-ddl: true
+     show-sql: true    
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+    lastName: Demo
+  filter:
+    create: All Tasks
+server.port: 9090
+spring.devtools:
+    restart:
+      enabled: true
+
+address.validation.url: https://www.yaddress.net/api/Address         
