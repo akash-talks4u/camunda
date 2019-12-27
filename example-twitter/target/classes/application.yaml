@@ -1,0 +1,8 @@
+camunda:
+  bpm:
+    admin-user:
+      id: kermit
+      password: kermit
+      
+server:
+    port: 9090     
