@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1qnc16s" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="Process_OrderFood" name="Process_OrderFood" isExecutable="true" camunda:versionTag="1.0">
+    <bpmn:extensionElements>
+      <camunda:executionListener event="start">
+        <camunda:script scriptFormat="groovy">println "Process " + execution.eventName + "ed"</camunda:script>
+      </camunda:executionListener>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_1" name="Start Order Food Request">
+      <bpmn:outgoing>SequenceFlow_1vfqn4h</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_1tlqz0y" name="Food Delivery Completed">
+      <bpmn:incoming>SequenceFlow_1q7nhq4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_OrderFood" name="Order Food" camunda:assignee="demo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="FoodOrderName" label="Enter the Food Name" type="string" />
+          <camunda:formField id="DrinkOrderName" label="Enter the Drink Name" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1vfqn4h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_13mnxi9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_FoodDelivery" name="Deliver Food">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="FoodOrderCost" label="Enter the Food Order Cost" type="string" />
+          <camunda:formField id="FoodOrderStatus" label="Food Order Status" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0rbqqlq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1q7nhq4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1vfqn4h" sourceRef="StartEvent_1" targetRef="Task_OrderFood" />
+    <bpmn:sequenceFlow id="SequenceFlow_1q7nhq4" sourceRef="Task_FoodDelivery" targetRef="EndEvent_1tlqz0y" />
+    <bpmn:sequenceFlow id="SequenceFlow_13mnxi9" sourceRef="Task_OrderFood" targetRef="Task_PrepareFood" />
+    <bpmn:serviceTask id="Task_PrepareFood" name="Prepare Food" camunda:class="com.acme.restaurant.process.api.delegate.PrepareOrderDelegate">
+      <bpmn:incoming>SequenceFlow_13mnxi9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0rbqqlq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0rbqqlq" sourceRef="Task_PrepareFood" targetRef="Task_FoodDelivery" />
+    <bpmn:textAnnotation id="TextAnnotation_0fd5uv1">
+      <bpmn:text>Customer Orders the Food</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1c2ns2n" sourceRef="Task_OrderFood" targetRef="TextAnnotation_0fd5uv1" />
+    <bpmn:textAnnotation id="TextAnnotation_1skzoho">
+      <bpmn:text>Chef Prepares the Food</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_085wt4j" sourceRef="Task_PrepareFood" targetRef="TextAnnotation_1skzoho" />
+    <bpmn:textAnnotation id="TextAnnotation_0ut0d0h">
+      <bpmn:text>Delivery Boy Delivers the Food</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1uh3qwq" sourceRef="Task_FoodDelivery" targetRef="TextAnnotation_0ut0d0h" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_OrderFood">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="156" y="202" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1tlqz0y_di" bpmnElement="EndEvent_1tlqz0y">
+        <dc:Bounds x="1072" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1056" y="202" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1smnqn7_di" bpmnElement="Task_OrderFood">
+        <dc:Bounds x="300" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1ngtdvf_di" bpmnElement="Task_FoodDelivery">
+        <dc:Bounds x="700" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vfqn4h_di" bpmnElement="SequenceFlow_1vfqn4h">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="300" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1q7nhq4_di" bpmnElement="SequenceFlow_1q7nhq4">
+        <di:waypoint x="800" y="177" />
+        <di:waypoint x="1072" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_13mnxi9_di" bpmnElement="SequenceFlow_13mnxi9">
+        <di:waypoint x="400" y="177" />
+        <di:waypoint x="490" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1e88iea_di" bpmnElement="Task_PrepareFood">
+        <dc:Bounds x="490" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0fd5uv1_di" bpmnElement="TextAnnotation_0fd5uv1">
+        <dc:Bounds x="400" y="50" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1c2ns2n_di" bpmnElement="Association_1c2ns2n">
+        <di:waypoint x="390" y="137" />
+        <di:waypoint x="423" y="104" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1skzoho_di" bpmnElement="TextAnnotation_1skzoho">
+        <dc:Bounds x="590" y="50" width="100" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_085wt4j_di" bpmnElement="Association_085wt4j">
+        <di:waypoint x="577" y="137" />
+        <di:waypoint x="621" y="90" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0ut0d0h_di" bpmnElement="TextAnnotation_0ut0d0h">
+        <dc:Bounds x="780" y="50" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1uh3qwq_di" bpmnElement="Association_1uh3qwq">
+        <di:waypoint x="782" y="137" />
+        <di:waypoint x="808" y="104" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rbqqlq_di" bpmnElement="SequenceFlow_0rbqqlq">
+        <di:waypoint x="590" y="177" />
+        <di:waypoint x="700" y="177" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
