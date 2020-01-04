@@ -114,7 +114,7 @@ public class FnolApiController implements FnolApi {
 	}
 
 	private String prepareResponse(VariableMap processInstanceVariables) {
-		return (String) processInstanceVariables.get("fnol_id");
+		return (String) processInstanceVariables.get("ClaimId");
 	}
 
 	@Override
