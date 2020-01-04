@@ -1,0 +1,14 @@
+version: '2.2'
+services:
+  fnol:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: fnol-process-api
+    ports:
+      - 8080
+    networks:
+      - network1
+ 
+networks:
+  network1:
